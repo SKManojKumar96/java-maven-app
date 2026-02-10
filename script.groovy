@@ -1,19 +1,17 @@
 def buildJar() {
-    echo 'building the application...'
     sh 'mvn package'
 }
 
 def buildImage() {
-    echo "building the docker image..."
-    withCredentials([usernamePassword(credentialsId: 'docker-hub-repo', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-        sh 'docker build -t nanatwn/demo-app:jma-2.0 .'
+    withCredentials([usernamePassword:(credentialsId:'dockerhub-id', usernameVariable: $USER, passwordVariable: $PASS)]){
+        sh 'docker build -t vetri1807/demo-app:jma-1.1 .'
         sh 'echo $PASS | docker login -u $USER --password-stdin'
-        sh 'docker push nanatwn/demo-app:jma-2.0'
+        sh 'docker push vetri1807/demo-app:jma-1.1'
     }
 }
 
 def deployApp() {
-    echo 'deploying the application...'
+    sh 'echo Deployed successfully'
 }
 
 return this
